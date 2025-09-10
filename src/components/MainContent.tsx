@@ -86,61 +86,67 @@ const MainContent = () => {
   const finalFilteredProducts = getFilteredProducts();
 
   return (
-    <>
-      <section className="flex items-center p-5 h-full w-full">
-        {isLoading ? (
-          <div className="flex items-center justify-center h-full w-full">
-            <Loader />
-          </div>
-        ) : (
-          <div className="w-full">
-            <div className="flex flex-col gap-2">
-              <div
-                className="relative w-fit"
-                onMouseEnter={() => setDropdownOpen(true)}
-                onMouseLeave={() => setDropdownOpen(false)}
-              >
-                <button className="border px-4 py-2 rounded-full flex items-center cursor-pointer bg-gray-900 text-white hover:bg-gray-700  transform ease-in-out duration-300 hover:scale-105">
-                  <Tally3 className="mr-2" />
-                  <span className="capitalize">
-                    {sortFilter === "all"
-                      ? "Filter"
-                      : sortFilter.charAt(0).toUpperCase() +
-                        sortFilter.slice(1)}
-                  </span>
-                </button>
+    <section className="flex flex-col h-full w-full p-5">
+      {isLoading ? (
+        <div className="flex items-center justify-center flex-grow">
+          <Loader />
+        </div>
+      ) : (
+        <div className="flex flex-col h-full">
+          <div className="mb-4">
+            <div
+              className="relative w-fit"
+              onMouseEnter={() => setDropdownOpen(true)}
+              onMouseLeave={() => setDropdownOpen(false)}
+            >
+              <button className="border px-4 py-2 rounded-full flex items-center cursor-pointer bg-gray-900 text-white hover:bg-gray-700 transform ease-in-out duration-300 hover:scale-105">
+                <Tally3 className="mr-2" />
+                <span className="capitalize">
+                  {sortFilter === "all"
+                    ? "Filter"
+                    : sortFilter.charAt(0).toUpperCase() + sortFilter.slice(1)}
+                </span>
+              </button>
 
-                {dropdownOpen && (
-                  <div className="absolute bg-white border border-gray-300 rounded min-w-max shadow-lg z-10 w-full">
-                    <button
-                      onClick={() => setSortFilter("cheap")}
-                      className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
-                    >
-                      Cheap
-                    </button>
-                    <button
-                      onClick={() => setSortFilter("expensive")}
-                      className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
-                    >
-                      Expensive
-                    </button>
-                    <button
-                      onClick={() => setSortFilter("popular")}
-                      className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
-                    >
-                      Popular
-                    </button>
-                    <button
-                      onClick={() => setSortFilter("all")}
-                      className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
-                    >
-                      Reset
-                    </button>
-                  </div>
-                )}
+              {dropdownOpen && (
+                <div className="absolute bg-white border border-gray-300 rounded min-w-max shadow-lg z-10 w-full">
+                  <button
+                    onClick={() => setSortFilter("cheap")}
+                    className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
+                  >
+                    Cheap
+                  </button>
+                  <button
+                    onClick={() => setSortFilter("expensive")}
+                    className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
+                  >
+                    Expensive
+                  </button>
+                  <button
+                    onClick={() => setSortFilter("popular")}
+                    className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
+                  >
+                    Popular
+                  </button>
+                  <button
+                    onClick={() => setSortFilter("all")}
+                    className="block px-4 py-2 cursor-pointer hover:bg-gray-200 w-full"
+                  >
+                    Reset
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex-grow">
+            {finalFilteredProducts.length === 0 ? (
+              <div className="flex items-center justify-center h-full text-gray-500 text-lg font-medium">
+                No products found for this category
               </div>
+            ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-                {finalFilteredProducts?.map((product) => (
+                {finalFilteredProducts.map((product) => (
                   <BookCard
                     product={product}
                     key={product.id}
@@ -148,20 +154,20 @@ const MainContent = () => {
                   />
                 ))}
               </div>
-
-              <div className="flex justify-end">
-                <Pagination
-                  currentPage={currentPage}
-                  totalItems={totalProducts}
-                  itemsPerPage={itemsPerPage}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
-              </div>
-            </div>
+            )}
           </div>
-        )}
-      </section>
-    </>
+
+          <div className="flex justify-end mt-4">
+            <Pagination
+              currentPage={currentPage}
+              totalItems={totalProducts}
+              itemsPerPage={itemsPerPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          </div>
+        </div>
+      )}
+    </section>
   );
 };
 
